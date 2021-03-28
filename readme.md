@@ -9,5 +9,4 @@ Decisions I made, with simplicity in mind:
 - There are only two speeds: "fast" and "slow".
 - Not worrying about logic optimization, just correctness.
 
-
-
+See https://bitstorm.org/gameoflife/lexicon/ for example patterns.

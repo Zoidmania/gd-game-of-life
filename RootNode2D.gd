@@ -91,6 +91,24 @@ func init_cell_states():
     update_tiles()
 
 
+func load_sim_file(path):
+    """Allows users to load previously saved grid states.
+
+    Args:
+        path (str): the path to load the file from.
+    """
+
+    var save_game = File.new()
+    if not save_game.file_exists(path):
+        return # Error! We don't have a save to load.
+    
+    save_game.open(path, File.READ)
+    GRID = parse_json(save_game.get_as_text())
+    update_tiles()
+    
+    print("[DEBUG] Loaded grid data from ", path)
+
+
 func pos2cell(position):
     """Converts a position from a mouse event into cell coordinates.
 
@@ -147,6 +165,22 @@ func process_cell(row, col):
         return true
     else:
         return false
+
+
+func save_sim_file(path):
+    """Allows saving of a grid state.
+
+    Args:
+        path (str): the path to save the file to.
+    """
+
+    var save_game = File.new()
+    # save_game.open("user://savegame.save", File.WRITE)
+    save_game.open(path, File.WRITE)
+    save_game.store_line(to_json(GRID))
+    save_game.close()
+    
+    print("[DEBUG] Saved grid data to ", path)
 
 
 func set_start():
@@ -270,11 +304,6 @@ func _on_ButtonClear_pressed():
     init_cell_states()
 
 
-func _on_ButtonQuit_pressed():
-    """Gracefully quit the game."""
-    get_tree().quit()
-
-
 func _on_CheckBoxFast_toggled(button_pressed):
     """Toggles the speed of the iteration process.
 
@@ -290,3 +319,27 @@ func _on_CheckBoxFast_toggled(button_pressed):
     TIMER.set_wait_time(1.0/SPEED)
     print("[DEBUG] SPEED set to ", str(SPEED))
 
+
+func _on_ButtonLoad_pressed():
+    """Starts the load dialog."""
+    self.get_node("FileDialogLoad").popup()
+
+
+func _on_ButtonSave_pressed():
+    """Starts the save dialog."""
+    self.get_node("FileDialogSave").popup()
+
+
+func _on_ButtonQuit_pressed():
+    """Gracefully quit the game."""
+    get_tree().quit()
+
+
+func _on_FileDialogSave_file_selected(path):
+    """Routes to the `save` function."""
+    save_sim_file(path)
+
+
+func _on_FileDialogLoad_file_selected(path):
+    """Routes to the `load` function."""
+    load_sim_file(path)

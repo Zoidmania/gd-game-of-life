@@ -39,9 +39,9 @@ script = ExtResource( 1 )
 [node name="MenuPanel" type="Panel" parent="."]
 visible = false
 margin_left = 448.0
-margin_top = 208.0
+margin_top = 176.0
 margin_right = 576.0
-margin_bottom = 384.0
+margin_bottom = 416.0
 __meta__ = {
 "_edit_lock_": true,
 "_edit_use_anchors_": false
@@ -82,17 +82,29 @@ margin_right = 96.0
 margin_bottom = 103.0
 text = "Clear"
 
-[node name="ButtonQuit" type="Button" parent="MenuPanel/VBoxContainer"]
+[node name="CheckBoxFast" type="CheckBox" parent="MenuPanel/VBoxContainer"]
 margin_top = 107.0
 margin_right = 96.0
-margin_bottom = 127.0
-text = "Quit"
+margin_bottom = 131.0
+text = "Fast Mode"
 
-[node name="CheckBoxFast" type="CheckBox" parent="MenuPanel/VBoxContainer"]
-margin_top = 131.0
+[node name="ButtonSave" type="Button" parent="MenuPanel/VBoxContainer"]
+margin_top = 135.0
 margin_right = 96.0
 margin_bottom = 155.0
-text = "Fast Mode"
+text = "Save"
+
+[node name="ButtonLoad" type="Button" parent="MenuPanel/VBoxContainer"]
+margin_top = 159.0
+margin_right = 96.0
+margin_bottom = 179.0
+text = "Load"
+
+[node name="ButtonQuit" type="Button" parent="MenuPanel/VBoxContainer"]
+margin_top = 183.0
+margin_right = 96.0
+margin_bottom = 203.0
+text = "Quit"
 
 [node name="TileMap" type="TileMap" parent="."]
 z_index = -1
@@ -103,8 +115,41 @@ tile_data = PoolIntArray( 0, 1, 0, 1, 1, 0, 2, 1, 0, 3, 1, 0, 4, 1, 0, 5, 1, 0, 
 __meta__ = {
 "_edit_lock_": true
 }
+
+[node name="FileDialogSave" type="FileDialog" parent="."]
+margin_left = 272.0
+margin_top = 112.0
+margin_right = 752.0
+margin_bottom = 448.0
+window_title = "Save Simulation"
+access = 2
+filters = PoolStringArray( "*.json ; JSON blobs" )
+current_dir = "/src/godot/GameOfLife"
+current_path = "/src/godot/GameOfLife/"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="FileDialogLoad" type="FileDialog" parent="."]
+margin_left = 272.0
+margin_top = 112.0
+margin_right = 752.0
+margin_bottom = 448.0
+window_title = "Open a File"
+mode = 0
+access = 2
+filters = PoolStringArray( "*.json ; JSON blobs" )
+current_dir = "/src/godot/GameOfLife"
+current_path = "/src/godot/GameOfLife/"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 [connection signal="pressed" from="MenuPanel/VBoxContainer/ButtonStart" to="." method="_on_ButtonStart_pressed"]
 [connection signal="pressed" from="MenuPanel/VBoxContainer/ButtonEdit" to="." method="_on_ButtonEdit_pressed"]
 [connection signal="pressed" from="MenuPanel/VBoxContainer/ButtonClear" to="." method="_on_ButtonClear_pressed"]
-[connection signal="pressed" from="MenuPanel/VBoxContainer/ButtonQuit" to="." method="_on_ButtonQuit_pressed"]
 [connection signal="toggled" from="MenuPanel/VBoxContainer/CheckBoxFast" to="." method="_on_CheckBoxFast_toggled"]
+[connection signal="pressed" from="MenuPanel/VBoxContainer/ButtonSave" to="." method="_on_ButtonSave_pressed"]
+[connection signal="pressed" from="MenuPanel/VBoxContainer/ButtonLoad" to="." method="_on_ButtonLoad_pressed"]
+[connection signal="pressed" from="MenuPanel/VBoxContainer/ButtonQuit" to="." method="_on_ButtonQuit_pressed"]
+[connection signal="file_selected" from="FileDialogSave" to="." method="_on_FileDialogSave_file_selected"]
+[connection signal="file_selected" from="FileDialogLoad" to="." method="_on_FileDialogLoad_file_selected"]
